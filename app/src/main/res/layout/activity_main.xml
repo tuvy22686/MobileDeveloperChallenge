@@ -9,6 +9,27 @@
             android:layout_height="match_parent"
             tools:context=".ui.MainActivity">
 
+        <TextView
+                android:id="@+id/rate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:textSize="32sp"
+                android:textAlignment="viewEnd"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="# ### ###.##"/>
+
+        <TextView
+                android:id="@+id/quote"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:textSize="32sp"
+                app:layout_constraintTop_toBottomOf="@id/rate"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="AED"
+                />
+
         <Button
                 android:id="@+id/button_request"
                 android:layout_width="wrap_content"

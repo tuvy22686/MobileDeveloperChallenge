@@ -1,16 +1,12 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.tuvy22686.mobiledeveloperchallenge.databinding.ActivityMainBinding
-import com.github.tuvy22686.mobiledeveloperchallenge.infra.HttpClient
-import com.github.tuvy22686.mobiledeveloperchallenge.model.LiveResponse
-import com.github.tuvy22686.mobiledeveloperchallenge.viewmodel.MainActivityViewModel
-import com.google.gson.Gson
+import com.github.tuvy22686.mobiledeveloperchallenge.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity(), HttpClient.HttpClientInterface {
+class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility {
 
     companion object {
         const val TAG = "MainActivity"
@@ -20,7 +16,7 @@ class MainActivity : AppCompatActivity(), HttpClient.HttpClientInterface {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,28 +32,28 @@ class MainActivity : AppCompatActivity(), HttpClient.HttpClientInterface {
     }
 
     private fun setupViewModel() {
-        viewModel = MainActivityViewModel(application)
+        viewModel = MainViewModel(application, this)
     }
 
     private fun setupButton() {
         binding.buttonRequest.setOnClickListener {
-            viewModel.onRequestButtonClick(this@MainActivity)
+            viewModel.onRequestButtonClick()
         }
     }
 
-    override fun onPreExecute() {
+    private fun setupTextView() {
+    }
+
+    override fun toVisible() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    override fun onPostExecute(result: String?) {
+    override fun toGone() {
         binding.progressBar.visibility = View.GONE
-        val jsonData = if (result != null) {
-            Gson().fromJson<LiveResponse>(result, LiveResponse::class.java)
-        } else {
-            null
-        }
-        jsonData?.apply {
-            Log.d(TAG, jsonData.toString())
+        viewModel.quotes?.apply {
+            val key = this.keys.first()
+            binding.quote.text = key
+            binding.rate.text = this[key].toString()
         }
     }
 }

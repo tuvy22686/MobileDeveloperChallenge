@@ -5,25 +5,21 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-class HttpClient: AsyncTask<String, Int, String>() {
+class HttpClient(httpResponse: HttpResponse): AsyncTask<String, Int, String>() {
 
     companion object {
         const val TAG = "HttpClient"
     }
 
-    private var httpClientInterface: HttpClientInterface? = null
+    private var response: HttpResponse = httpResponse
     private lateinit var client: OkHttpClient
-
-    fun init(httpClientInterface: HttpClientInterface) {
-        this.httpClientInterface = httpClientInterface
-    }
 
     override fun onPreExecute() {
         super.onPreExecute()
-        httpClientInterface?.onPreExecute()
+        response.onPreExecute()
     }
 
-    override fun doInBackground(vararg params: String?): String? {
+    override fun doInBackground(vararg params: String): String? {
 
         try {
             client = OkHttpClient()
@@ -47,10 +43,10 @@ class HttpClient: AsyncTask<String, Int, String>() {
 
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
-        httpClientInterface?.onPostExecute(result)
+        response.onPostExecute(result)
     }
 
-    interface HttpClientInterface {
+    interface HttpResponse {
         fun onPreExecute()
         fun onPostExecute(result: String?)
     }
