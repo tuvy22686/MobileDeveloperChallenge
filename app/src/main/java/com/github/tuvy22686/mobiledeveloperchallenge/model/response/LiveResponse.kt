@@ -1,4 +1,4 @@
-package com.github.tuvy22686.mobiledeveloperchallenge.model
+package com.github.tuvy22686.mobiledeveloperchallenge.model.response
 
 data class LiveResponse(
     val success: Boolean,

@@ -2,8 +2,10 @@ package com.github.tuvy22686.mobiledeveloperchallenge.util
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.github.tuvy22686.mobiledeveloperchallenge.model.business.Quote
 
 class QuoteOpenHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -48,6 +50,31 @@ class QuoteOpenHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
             put("timestamp", timestamp)
         }
         db.update(TABLE_NAME_RATE, values, "quote = '$quote'", null)
+    }
+
+    fun getListFromRate(db: SQLiteDatabase): List<Quote> {
+        val cursor: Cursor = db.query(
+            TABLE_NAME_RATE,
+            arrayOf("id", "quote", "rate", "timestamp"),
+            null,
+            null,
+            null,
+            null,
+            null)
+
+        val quotes: ArrayList<Quote> = arrayListOf()
+        while (cursor.moveToNext()) {
+            val quote = Quote(
+                id = cursor.getLong(0),
+                name = cursor.getString(1),
+                rate = cursor.getDouble(2),
+                timestamp = cursor.getLong(3))
+            quotes.add(quote)
+        }
+
+        cursor.close()
+
+        return quotes.toList()
     }
 
     fun insertDataToSource(db: SQLiteDatabase, source: String) {

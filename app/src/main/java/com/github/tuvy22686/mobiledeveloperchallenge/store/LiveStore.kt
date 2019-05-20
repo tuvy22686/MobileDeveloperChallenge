@@ -1,8 +1,10 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.store
 
 import android.app.Application
+import android.util.Log
 import com.github.tuvy22686.mobiledeveloperchallenge.infra.HttpClient
-import com.github.tuvy22686.mobiledeveloperchallenge.model.LiveResponse
+import com.github.tuvy22686.mobiledeveloperchallenge.model.business.Quote
+import com.github.tuvy22686.mobiledeveloperchallenge.model.response.LiveResponse
 import com.github.tuvy22686.mobiledeveloperchallenge.util.QuoteOpenHelper
 import com.google.gson.Gson
 
@@ -29,9 +31,8 @@ class LiveStore(application: Application, liveStoreStatus: Status): HttpClient.H
     }
 
     override fun onPostExecute(result: String?) {
-        status.finish()
         result?.apply {
-            val liveResponse:LiveResponse = Gson().fromJson<LiveResponse>(this, LiveResponse::class.java)
+            val liveResponse: LiveResponse = Gson().fromJson<LiveResponse>(this, LiveResponse::class.java)
             if (!preferences.getBoolean(PREF_DB_INIT, false)) {
                 liveResponse.quotes.forEach {
                     helper.insertDataToRate(
@@ -54,6 +55,14 @@ class LiveStore(application: Application, liveStoreStatus: Status): HttpClient.H
                 }
             }
 
+        }
+        status.finish()
+    }
+
+    fun getData() {
+        val quotes: List<Quote> = helper.getListFromRate(helper.readableDatabase)
+        quotes.forEach {
+            Log.d(TAG, "name: ${it.name}, ${it.rate}")
         }
     }
 

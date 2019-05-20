@@ -7,18 +7,17 @@ class MainViewModel(private val application: Application,
                     progressBarVisibility: ProgressBarVisibility): ViewModel, LiveStore.Status {
 
     private var visibility: ProgressBarVisibility = progressBarVisibility
-
-    var quotes: Map<String, Double>? = null
+    private val liveStore = LiveStore(application, this)
 
     override fun onCreate() {
+        liveStore.startTransaction(null)
     }
 
     override fun onDestroy() {
     }
 
     fun onRequestButtonClick() {
-        val liveStore = LiveStore(application, this)
-        liveStore.startTransaction(null)
+        liveStore.getData()
     }
 
     override fun start() {

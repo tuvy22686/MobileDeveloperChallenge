@@ -47,10 +47,5 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility {
 
     override fun toGone() {
         binding.progressBar.visibility = View.GONE
-        viewModel.quotes?.apply {
-            val key = this.keys.first()
-            binding.quote.text = key
-            binding.rate.text = this[key].toString()
-        }
     }
 }
