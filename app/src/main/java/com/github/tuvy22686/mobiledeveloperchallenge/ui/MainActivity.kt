@@ -41,9 +41,6 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility {
         }
     }
 
-    private fun setupTextView() {
-    }
-
     override fun toVisible() {
         binding.progressBar.visibility = View.VISIBLE
     }

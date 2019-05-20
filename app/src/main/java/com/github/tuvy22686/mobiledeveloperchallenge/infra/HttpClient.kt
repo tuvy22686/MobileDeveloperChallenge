@@ -1,6 +1,7 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.infra
 
 import android.os.AsyncTask
+import com.github.tuvy22686.mobiledeveloperchallenge.store.LiveStore
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -8,7 +9,7 @@ import okhttp3.Response
 class HttpClient(httpResponse: HttpResponse): AsyncTask<String, Int, String>() {
 
     companion object {
-        const val TAG = "HttpClient"
+        const val TAG = "HTTP_CLIENT"
     }
 
     private var response: HttpResponse = httpResponse
@@ -20,13 +21,9 @@ class HttpClient(httpResponse: HttpResponse): AsyncTask<String, Int, String>() {
     }
 
     override fun doInBackground(vararg params: String): String? {
-
         try {
             client = OkHttpClient()
-            val request = Request.Builder()
-                .url(ApiRequestGenerator.live())
-                .get()
-                .build()
+            val request = ApiRequestGenerator.generateRequest(params)
             val call = client.newCall(request)
             val response: Response = call.execute()
 

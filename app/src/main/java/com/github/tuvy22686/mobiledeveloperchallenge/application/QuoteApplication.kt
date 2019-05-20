@@ -3,9 +3,10 @@ package com.github.tuvy22686.mobiledeveloperchallenge.application
 import android.app.Application
 import android.util.Log
 
-class RateApplication: Application() {
+class QuoteApplication: Application() {
+
     override fun onCreate() {
         super.onCreate()
-        Log.d("RateApplication", "onCreate")
+        Log.d("QuoteApplication", "onCreate")
     }
 }

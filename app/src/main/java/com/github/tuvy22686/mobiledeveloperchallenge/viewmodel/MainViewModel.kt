@@ -1,13 +1,13 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.viewmodel
 
 import android.app.Application
-import com.github.tuvy22686.mobiledeveloperchallenge.infra.HttpClient
-import com.github.tuvy22686.mobiledeveloperchallenge.model.LiveResponse
-import com.google.gson.Gson
+import com.github.tuvy22686.mobiledeveloperchallenge.store.LiveStore
 
-class MainViewModel(application: Application, progressBarVisibility: ProgressBarVisibility): ViewModel, HttpClient.HttpResponse {
+class MainViewModel(private val application: Application,
+                    progressBarVisibility: ProgressBarVisibility): ViewModel, LiveStore.Status {
 
     private var visibility: ProgressBarVisibility = progressBarVisibility
+
     var quotes: Map<String, Double>? = null
 
     override fun onCreate() {
@@ -17,19 +17,15 @@ class MainViewModel(application: Application, progressBarVisibility: ProgressBar
     }
 
     fun onRequestButtonClick() {
-        val httpClient = HttpClient(this)
-        httpClient.execute()
+        val liveStore = LiveStore(application, this)
+        liveStore.startTransaction(null)
     }
 
-    override fun onPreExecute() {
+    override fun start() {
         visibility.toVisible()
     }
 
-    override fun onPostExecute(result: String?) {
-        result?.apply {
-            val data = Gson().fromJson<LiveResponse>(result, LiveResponse::class.java)
-            quotes = data.quotes
-        }
+    override fun finish() {
         visibility.toGone()
     }
 
