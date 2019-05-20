@@ -1,6 +1,7 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.viewmodel
 
 import android.app.Application
+import com.github.tuvy22686.mobiledeveloperchallenge.model.business.Quote
 import com.github.tuvy22686.mobiledeveloperchallenge.store.LiveStore
 
 class MainViewModel(private val application: Application,
@@ -17,7 +18,11 @@ class MainViewModel(private val application: Application,
     }
 
     fun onRequestButtonClick() {
-        liveStore.getData()
+//        return liveStore.getQuotes()
+    }
+
+    fun getQuotes(): List<Quote> {
+        return liveStore.getQuotes()
     }
 
     override fun start() {

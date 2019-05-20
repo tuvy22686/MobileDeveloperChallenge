@@ -3,10 +3,13 @@ package com.github.tuvy22686.mobiledeveloperchallenge.ui
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.tuvy22686.mobiledeveloperchallenge.databinding.ActivityMainBinding
+import com.github.tuvy22686.mobiledeveloperchallenge.ui.adapter.QuoteViewAdapter
+import com.github.tuvy22686.mobiledeveloperchallenge.ui.viewholder.QuoteViewHolder
 import com.github.tuvy22686.mobiledeveloperchallenge.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility {
+class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility, QuoteViewHolder.ItemClickListener {
 
     companion object {
         const val TAG = "MainActivity"
@@ -47,5 +50,12 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility {
 
     override fun toGone() {
         binding.progressBar.visibility = View.GONE
+        binding.source.text = "USD"
+        binding.recyclerView.adapter = QuoteViewAdapter(this, viewModel.getQuotes(), this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onItemClick(rate: Double) {
+        binding.rate.text = rate.toString()
     }
 }

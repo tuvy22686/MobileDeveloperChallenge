@@ -59,11 +59,8 @@ class LiveStore(application: Application, liveStoreStatus: Status): HttpClient.H
         status.finish()
     }
 
-    fun getData() {
-        val quotes: List<Quote> = helper.getListFromRate(helper.readableDatabase)
-        quotes.forEach {
-            Log.d(TAG, "name: ${it.name}, ${it.rate}")
-        }
+    fun getQuotes(): List<Quote> {
+        return helper.getListFromRate(helper.readableDatabase)
     }
 
     interface Status {
