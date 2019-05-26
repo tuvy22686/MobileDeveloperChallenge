@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.tuvy22686.mobiledeveloperchallenge.R
-import com.github.tuvy22686.mobiledeveloperchallenge.model.business.Quote
+import com.github.tuvy22686.mobiledeveloperchallenge.model.data.Quote
 import com.github.tuvy22686.mobiledeveloperchallenge.ui.viewholder.QuoteViewHolder
 
 class QuoteViewAdapter(private val context: Context, private val quotes: List<Quote>, private val itemClickListener: QuoteViewHolder.ItemClickListener) : RecyclerView.Adapter<QuoteViewHolder>() {

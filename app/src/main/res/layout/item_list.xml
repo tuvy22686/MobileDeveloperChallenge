@@ -18,7 +18,6 @@
                 android:id="@+id/text_name_quote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="32sp"
                 tools:text="USDAED"/>
 
     </LinearLayout>

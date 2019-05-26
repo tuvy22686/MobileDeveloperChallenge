@@ -1,9 +1,7 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.infra
 
 import android.os.AsyncTask
-import com.github.tuvy22686.mobiledeveloperchallenge.store.LiveStore
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.Response
 
 class HttpClient(httpResponse: HttpResponse): AsyncTask<String, Int, String>() {

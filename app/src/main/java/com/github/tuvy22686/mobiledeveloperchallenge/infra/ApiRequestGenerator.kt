@@ -1,7 +1,8 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.infra
 
 import android.net.Uri
-import com.github.tuvy22686.mobiledeveloperchallenge.store.LiveStore
+import com.github.tuvy22686.mobiledeveloperchallenge.store.SourceStore
+import com.github.tuvy22686.mobiledeveloperchallenge.store.QuoteStore
 import com.github.tuvy22686.mobiledeveloperchallenge.util.Constants
 import okhttp3.Request
 
@@ -12,12 +13,11 @@ object ApiRequestGenerator {
 
     fun generateRequest(params: Array<out String>): Request {
         val requestUrl = when (params[0]) {
-            LiveStore.TAG -> {
-                if (params[1].isNullOrEmpty()) {
-                    live()
-                } else {
-                    live(params[1])
-                }
+            QuoteStore.TAG -> {
+                live(params[1])
+            }
+            SourceStore.TAG -> {
+                list()
             }
             else -> {
                 live()
@@ -51,7 +51,7 @@ object ApiRequestGenerator {
             .toString()
     }
 
-    fun list(): String {
+    private fun list(): String {
         return Uri.Builder()
             .scheme(SCHEME)
             .authority(AUTHORITY)

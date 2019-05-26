@@ -1,7 +1,9 @@
 package com.github.tuvy22686.mobiledeveloperchallenge.ui
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.tuvy22686.mobiledeveloperchallenge.databinding.ActivityMainBinding
@@ -10,10 +12,6 @@ import com.github.tuvy22686.mobiledeveloperchallenge.ui.viewholder.QuoteViewHold
 import com.github.tuvy22686.mobiledeveloperchallenge.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility, QuoteViewHolder.ItemClickListener {
-
-    companion object {
-        const val TAG = "MainActivity"
-    }
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility, Q
         setupViewModel()
         viewModel.onCreate()
         setContentView(binding.root)
-        setupButton()
+        setupSourceButton()
     }
 
     override fun onDestroy() {
@@ -38,9 +36,18 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility, Q
         viewModel = MainViewModel(application, this)
     }
 
-    private fun setupButton() {
-        binding.buttonRequest.setOnClickListener {
-            viewModel.onRequestButtonClick()
+    private fun setupSourceButton() {
+        binding.source.setOnClickListener {
+            val sources = viewModel.getSourcesName()
+            AlertDialog.Builder(this).apply {
+                setTitle("Source")
+                setNegativeButton("Cancel", null)
+                setItems(sources, DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.requestOfQuotes(sources[which].toString())
+                    dialog.dismiss()
+                })
+                show()
+            }
         }
     }
 
@@ -50,8 +57,8 @@ class MainActivity : AppCompatActivity(), MainViewModel.ProgressBarVisibility, Q
 
     override fun toGone() {
         binding.progressBar.visibility = View.GONE
-        binding.source.text = "USD"
-        binding.recyclerView.adapter = QuoteViewAdapter(this, viewModel.getQuotes(), this)
+        binding.source.text = viewModel.selectedSource
+        binding.recyclerView.adapter = QuoteViewAdapter(this, viewModel.getQuotes(viewModel.selectedSource), this)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
