@@ -10,10 +10,6 @@ import com.github.tuvy22686.mobiledeveloperchallenge.util.UnixTimeCalculatorUtil
 class MainViewModel(application: Application,
                     progressBarVisibility: ProgressBarVisibility): ViewModel, TransactionStatus {
 
-    companion object {
-        const val TAG = "MAIN_VIEW_MODEL"
-    }
-
     private var visibility: ProgressBarVisibility = progressBarVisibility
     private val quoteStore = QuoteStore(application, this)
     private val sourceStore = SourceStore(application, this)
