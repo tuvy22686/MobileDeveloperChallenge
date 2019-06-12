@@ -83,3 +83,4 @@ lint/tmp/
 # lint/reports/
 .gitsecret/keys/random_seed
 !*.secret
+app/src/main/java/com/github/tuvy22686/mobiledeveloperchallenge/util/Constants.kt
